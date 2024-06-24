@@ -33,7 +33,6 @@ target/
 dependency-reduced-pom.xml
 
 # various other potential build files
-build/
 bin/
 dist/
 manifest.mf
@@ -52,9 +51,9 @@ manifest.mf
 run/
 
 build-data/
-Tentacles-API
-Tentacles-MojangAPI
-Tentacles-Server
+Grindstone-API
+Grindstone-MojangAPI
+Grindstone-Server
 paper-api-generator
 *.jar
 test-plugin.settings.gradle.kts
