@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: "Fabi.exe" <66797305+FabiPunktExe@users.noreply.github.com>
+Date: Sun, 30 Jun 2024 10:32:13 +0200
+Subject: [PATCH] Disable item base tick
+
+
+diff --git a/src/main/java/diruptio/grindstone/GrindstoneConfig.java b/src/main/java/diruptio/grindstone/GrindstoneConfig.java
+index f0187f24c8892a994e4a7061f7f70b798641100b..6b92202a51e9f1aba5e6bd14f0c8990ff64acdba 100644
+--- a/src/main/java/diruptio/grindstone/GrindstoneConfig.java
++++ b/src/main/java/diruptio/grindstone/GrindstoneConfig.java
+@@ -128,10 +128,12 @@ public class GrindstoneConfig {
+     }
+ 
+     public static boolean disableItemMerging = false;
++    public static boolean disableItemBaseTick = false;
+ 
+     private static void entityOptions() {
+         if (version >= 1) {
+             disableItemMerging = getBoolean("entity.item.disable-merging", disableItemMerging);
++            disableItemBaseTick = getBoolean("entity.item.disable-base-tick", disableItemBaseTick);
+         }
+     }
+ }
+diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
+index 558f209daafdc24155d0dcb0060a74e8861eaec5..ad1392413e88f2717c1b162d7f089f70a45025f5 100644
+--- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
++++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
+@@ -159,7 +159,9 @@ public class ItemEntity extends Entity implements TraceableEntity {
+         if (this.getItem().isEmpty()) {
+             this.discard(EntityRemoveEvent.Cause.DESPAWN); // CraftBukkit - add Bukkit remove cause
+         } else {
++            if (!GrindstoneConfig.disableItemBaseTick) { // Grindstone
+             super.tick();
++            } // Grindstone
+             // CraftBukkit start - Use wall time for pickup and despawn timers
+             int elapsedTicks = MinecraftServer.currentTick - this.lastTick;
+             if (this.pickupDelay != 32767) this.pickupDelay -= elapsedTicks;
