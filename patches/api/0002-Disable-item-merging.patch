@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: "Fabi.exe" <66797305+FabiPunktExe@users.noreply.github.com>
+Date: Sun, 30 Jun 2024 10:25:03 +0200
+Subject: [PATCH] Disable item merging
+
+
+diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
+index ceb81148f5fd17f00d1a0fb2df1f31c45aa6807d..170fae6db8e804c83002da9ef7b78ca290be5b6d 100644
+--- a/src/main/java/org/bukkit/Server.java
++++ b/src/main/java/org/bukkit/Server.java
+@@ -2263,6 +2263,13 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+         }
+         // Purpur end
+ 
++        // Grindstone start
++        @NotNull
++        public org.bukkit.configuration.file.YamlConfiguration getGrindstoneConfig() {
++            throw new UnsupportedOperationException("Not supported yet.");
++        }
++        // Grindstone end
++
+         /**
+          * Sends the component to the player
+          *
