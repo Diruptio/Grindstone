@@ -157,10 +157,10 @@ index 710477ae27ebc5afdf0012ef0867d05efd293c24..4ca291fd942a6f0fa2fdb30949054a5d
      public CrashReport(String message, Throwable cause) {
          io.papermc.paper.util.StacktraceDeobfuscator.INSTANCE.deobfuscateThrowable(cause); // Paper
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 6dbea75748021ecc950888213a431ab2495c4a18..f9ce708835e9c28362bd3aedb8f62320a1570e05 100644
+index e6a23507b69a128aabf4f811d6099281b24583fd..ac9cffd13f5ceac66177b6d0efba772e9facc0a6 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -969,7 +969,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1031,7 +1031,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          shutdownThread = Thread.currentThread();
          org.spigotmc.WatchdogThread.doStop(); // Paper
          if (!isSameThread()) {
