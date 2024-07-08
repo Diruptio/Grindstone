@@ -5,10 +5,10 @@ Subject: [PATCH] Disable item merging
 
 
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index ceb81148f5fd17f00d1a0fb2df1f31c45aa6807d..170fae6db8e804c83002da9ef7b78ca290be5b6d 100644
+index 1d594c256200d46882fafce5d2b33e60f0fa3a59..72bedd18cef22ac903ee5164e30948a68accbf00 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -2263,6 +2263,13 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -2266,6 +2266,13 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
          }
          // Purpur end
  
