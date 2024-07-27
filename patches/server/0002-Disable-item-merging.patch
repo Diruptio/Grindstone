@@ -167,22 +167,14 @@ index 744cfc91fa8b78794f1edab1f81035b21bf0c83f..7d0d7e686da04abf2141909a213b060b
  
          this.setPvpAllowed(dedicatedserverproperties.pvp);
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index 499646ad26d148953abf241d90e053870fedb708..558f209daafdc24155d0dcb0060a74e8861eaec5 100644
+index 499646ad26d148953abf241d90e053870fedb708..e3412f02a228affd2918678a61bcf43451b6d4f0 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-@@ -5,6 +5,7 @@ import java.util.List;
- import java.util.Objects;
- import java.util.UUID;
- import javax.annotation.Nullable;
-+import diruptio.grindstone.GrindstoneConfig;
- import net.minecraft.core.BlockPos;
- import net.minecraft.core.component.DataComponents;
- import net.minecraft.nbt.CompoundTag;
-@@ -214,9 +215,11 @@ public class ItemEntity extends Entity implements TraceableEntity {
+@@ -214,9 +214,11 @@ public class ItemEntity extends Entity implements TraceableEntity {
              boolean flag = Mth.floor(this.xo) != Mth.floor(this.getX()) || Mth.floor(this.yo) != Mth.floor(this.getY()) || Mth.floor(this.zo) != Mth.floor(this.getZ());
              int i = flag ? 2 : 40;
  
-+            if (!GrindstoneConfig.disableItemMerging) { // Grindstone
++            if (!diruptio.grindstone.GrindstoneConfig.disableItemMerging) { // Grindstone
              if (this.tickCount % i == 0 && !this.level().isClientSide && this.isMergable()) {
                  this.mergeWithNeighbours();
              }

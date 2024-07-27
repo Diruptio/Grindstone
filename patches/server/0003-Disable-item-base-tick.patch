@@ -22,14 +22,14 @@ index f0187f24c8892a994e4a7061f7f70b798641100b..6b92202a51e9f1aba5e6bd14f0c8990f
      }
  }
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index 558f209daafdc24155d0dcb0060a74e8861eaec5..ad1392413e88f2717c1b162d7f089f70a45025f5 100644
+index e3412f02a228affd2918678a61bcf43451b6d4f0..841317149d850166dd83e21d554869908f5c911c 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-@@ -159,7 +159,9 @@ public class ItemEntity extends Entity implements TraceableEntity {
+@@ -158,7 +158,9 @@ public class ItemEntity extends Entity implements TraceableEntity {
          if (this.getItem().isEmpty()) {
              this.discard(EntityRemoveEvent.Cause.DESPAWN); // CraftBukkit - add Bukkit remove cause
          } else {
-+            if (!GrindstoneConfig.disableItemBaseTick) { // Grindstone
++            if (!diruptio.grindstone.GrindstoneConfig.disableItemBaseTick) { // Grindstone
              super.tick();
 +            } // Grindstone
              // CraftBukkit start - Use wall time for pickup and despawn timers
