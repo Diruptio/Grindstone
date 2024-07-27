@@ -1,0 +1,44 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: "Fabi.exe" <MrStupsi@gmx.de>
+Date: Sat, 27 Jul 2024 14:49:03 +0200
+Subject: [PATCH] Disable illusioner tick
+
+
+diff --git a/src/main/java/diruptio/grindstone/GrindstoneConfig.java b/src/main/java/diruptio/grindstone/GrindstoneConfig.java
+index 6b92202a51e9f1aba5e6bd14f0c8990ff64acdba..d33eaa0b41e3b48c0a89ba2333b543e750797cfe 100644
+--- a/src/main/java/diruptio/grindstone/GrindstoneConfig.java
++++ b/src/main/java/diruptio/grindstone/GrindstoneConfig.java
+@@ -129,11 +129,13 @@ public class GrindstoneConfig {
+ 
+     public static boolean disableItemMerging = false;
+     public static boolean disableItemBaseTick = false;
++    public static boolean disableIllusionerTick = false;
+ 
+     private static void entityOptions() {
+         if (version >= 1) {
+             disableItemMerging = getBoolean("entity.item.disable-merging", disableItemMerging);
+             disableItemBaseTick = getBoolean("entity.item.disable-base-tick", disableItemBaseTick);
++            disableIllusionerTick = getBoolean("entity.illusioner.disable-tick", disableIllusionerTick);
+         }
+     }
+ }
+diff --git a/src/main/java/net/minecraft/world/entity/monster/Illusioner.java b/src/main/java/net/minecraft/world/entity/monster/Illusioner.java
+index f6450648b500733edfcee4564d382e8535d50fe2..16051a4dc74c958b43afcdab739523cf8370046d 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/Illusioner.java
++++ b/src/main/java/net/minecraft/world/entity/monster/Illusioner.java
+@@ -241,6 +241,15 @@ public class Illusioner extends SpellcasterIllager implements RangedAttackMob {
+         return this.isCastingSpell() ? AbstractIllager.IllagerArmPose.SPELLCASTING : (this.isAggressive() ? AbstractIllager.IllagerArmPose.BOW_AND_ARROW : AbstractIllager.IllagerArmPose.CROSSED);
+     }
+ 
++    // Grindstone start
++    @Override
++    public void tick() {
++        if (!diruptio.grindstone.GrindstoneConfig.disableIllusionerTick) {
++            super.tick();
++        }
++    }
++    // Grindstone end
++
+     private class IllusionerMirrorSpellGoal extends SpellcasterIllager.SpellcasterUseSpellGoal {
+ 
+         IllusionerMirrorSpellGoal() {
