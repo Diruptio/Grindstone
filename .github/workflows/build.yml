@@ -18,3 +18,10 @@ jobs:
         run: ./gradlew applyPatches --stacktrace
       - name: Build
         run: ./gradlew build --stacktrace
+      - name: Generate paperclip
+        run: ./gradlew createReobfPaperclipJar --stacktrace
+      - name: Upload Artifacts
+        run: |
+          mcversion=1.21
+          curl -X GET -H "Content-Type: text/plain" -H "${{ secrets.AUTHORIZATION_HEADER }}" "https://api.diruptio.de/project/version/create?project=grindstone&version=${{ github.run_number }}&tags=$mcversion"
+          cat build/libs/grindstone-paperclip-$mcversion-reobf.jar | curl -X GET -H "Content-Type: text/plain" -H "${{ secrets.AUTHORIZATION_HEADER }}" --data @- "https://api.diruptio.de/project/version/upload?project=grindstone&version=${{ github.run_number }}&file=Grindstone-$mcversion-${{ github.run_number }}.jar"
