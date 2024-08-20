@@ -6,7 +6,7 @@ Subject: [PATCH] Disable item merging
 
 diff --git a/src/main/java/diruptio/grindstone/GrindstoneConfig.java b/src/main/java/diruptio/grindstone/GrindstoneConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..f0187f24c8892a994e4a7061f7f70b798641100b
+index 0000000000000000000000000000000000000000..f2661e5cb9573479e5116b4eab0f10f15c608091
 --- /dev/null
 +++ b/src/main/java/diruptio/grindstone/GrindstoneConfig.java
 @@ -0,0 +1,137 @@
@@ -34,7 +34,7 @@ index 0000000000000000000000000000000000000000..f0187f24c8892a994e4a7061f7f70b79
 +            As you can see, there's tons to configure. Some options may impact gameplay, so use
 +            with caution, and make sure you know what each option does before configuring.
 +
-+            Website: https://diruptio.de
++            Website: https://diruptio.de/software/grindstone
 +            Docs: Coming soon
 +            """;
 +    private static File CONFIG_FILE;
@@ -148,7 +148,7 @@ index 0000000000000000000000000000000000000000..f0187f24c8892a994e4a7061f7f70b79
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 744cfc91fa8b78794f1edab1f81035b21bf0c83f..7d0d7e686da04abf2141909a213b060b34290bbe 100644
+index 2762f54515b352271feb4b26f506b06cd0fb1909..c6836b40ed58fc65dba09fd8db75f85c939e865e 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -248,6 +248,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -164,10 +164,10 @@ index 744cfc91fa8b78794f1edab1f81035b21bf0c83f..7d0d7e686da04abf2141909a213b060b
 +        }
 +        // Grindstone end
          com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
- 
-         this.setPvpAllowed(dedicatedserverproperties.pvp);
+         gg.pufferfish.pufferfish.PufferfishConfig.pufferfishFile = (java.io.File) options.valueOf("pufferfish-settings"); // Purpur
+         gg.pufferfish.pufferfish.PufferfishConfig.load(); // Pufferfish
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index 499646ad26d148953abf241d90e053870fedb708..e3412f02a228affd2918678a61bcf43451b6d4f0 100644
+index c536c33719a64cde672241ccb3b565da2ad30d64..159ee2ef3ab4fa3ae10daaa986992c86904384dc 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 @@ -214,9 +214,11 @@ public class ItemEntity extends Entity implements TraceableEntity {
@@ -183,18 +183,10 @@ index 499646ad26d148953abf241d90e053870fedb708..e3412f02a228affd2918678a61bcf434
              /* CraftBukkit start - moved up
              if (this.age != -32768) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index d87ecd6e7552ab537c9d9e8a10a471814e61632d..9906d5136ff60257e7fb347658e13b5cec59eb55 100644
+index 7443279fd48bd1b9dc0135e996dbc6fa2d584b54..2e1287632ac768366f5f5e563ddb9dc93da11fdb 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -255,6 +255,7 @@ import org.bukkit.scoreboard.Criteria;
- import org.bukkit.structure.StructureManager;
- import org.bukkit.util.StringUtil;
- import org.bukkit.util.permissions.DefaultPermissions;
-+import org.jetbrains.annotations.NotNull;
- import org.yaml.snakeyaml.LoaderOptions;
- import org.yaml.snakeyaml.Yaml;
- import org.yaml.snakeyaml.constructor.SafeConstructor;
-@@ -1085,6 +1086,7 @@ public final class CraftServer implements Server {
+@@ -1085,6 +1085,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) this.console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
@@ -202,13 +194,13 @@ index d87ecd6e7552ab537c9d9e8a10a471814e61632d..9906d5136ff60257e7fb347658e13b5c
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -3069,6 +3071,13 @@ public final class CraftServer implements Server {
+@@ -3069,6 +3070,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
 +        // Grindstone start
 +        @Override
-+        public @NotNull YamlConfiguration getGrindstoneConfig() {
++        public YamlConfiguration getGrindstoneConfig() {
 +            return diruptio.grindstone.GrindstoneConfig.config;
 +        }
 +        // Grindstone end
@@ -217,11 +209,11 @@ index d87ecd6e7552ab537c9d9e8a10a471814e61632d..9906d5136ff60257e7fb347658e13b5c
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 260f79affee997adbe8d08f2a2cb3aa68083f497..8f69cce2233263eba57f05940c4faac481712340 100644
+index e35a562eec4b65335723c50180fe1471f858ae60..3fb819168eae49039c733a242048818b0cfb6668 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -184,6 +184,14 @@ public class Main {
-                     .describedAs("Yml file");
+@@ -190,6 +190,14 @@ public class Main {
+                         .describedAs("Yml file");
                  // Purpur end
  
 +                // Grindstone Start
