@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  push:
+    branches: [ver/1.21.1]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.commits[0].message, '[skip-release]')"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Configure Git
+        run: git config --global user.email "action@github.com" && git config --global user.name "Github Action"
+      - name: Make Gradlew executable
+        run: chmod +x gradlew
+      - name: Apply patches
+        run: ./gradlew applyPatches --stacktrace
+      - name: Build
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: ./gradlew build --stacktrace
+      - name: Generate paperclip
+        run: ./gradlew createReobfPaperclipJar --stacktrace
+      - name: Upload Artifacts
+        run: |
+          mcversion=1.21.1
+          curl -X GET -H "Content-Type: text/plain" -H "${{ secrets.AUTHORIZATION_HEADER }}" "https://api.diruptio.de/project/version/create?project=grindstone&version=${{ github.run_number }}&tags=$mcversion"
+          cat build/libs/grindstone-paperclip-$mcversion-reobf.jar | curl -X GET -H "Content-Type: text/plain" -H "${{ secrets.AUTHORIZATION_HEADER }}" --data @- "https://api.diruptio.de/project/version/upload?project=grindstone&version=${{ github.run_number }}&file=Grindstone-$mcversion-${{ github.run_number }}.jar"
