@@ -167,10 +167,10 @@ index 2762f54515b352271feb4b26f506b06cd0fb1909..c6836b40ed58fc65dba09fd8db75f85c
          gg.pufferfish.pufferfish.PufferfishConfig.pufferfishFile = (java.io.File) options.valueOf("pufferfish-settings"); // Purpur
          gg.pufferfish.pufferfish.PufferfishConfig.load(); // Pufferfish
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index c536c33719a64cde672241ccb3b565da2ad30d64..159ee2ef3ab4fa3ae10daaa986992c86904384dc 100644
+index ffc754aa6ed61f62a0c94e9117f3008d24c0c163..0f964bd9dfc90cd2327efe85f5c1b06a08d46297 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-@@ -214,9 +214,11 @@ public class ItemEntity extends Entity implements TraceableEntity {
+@@ -212,9 +212,11 @@ public class ItemEntity extends Entity implements TraceableEntity {
              boolean flag = Mth.floor(this.xo) != Mth.floor(this.getX()) || Mth.floor(this.yo) != Mth.floor(this.getY()) || Mth.floor(this.zo) != Mth.floor(this.getZ());
              int i = flag ? 2 : 40;
  
@@ -180,7 +180,7 @@ index c536c33719a64cde672241ccb3b565da2ad30d64..159ee2ef3ab4fa3ae10daaa986992c86
              }
 +            } // Grindstone
  
-             /* CraftBukkit start - moved up
+             // Paper - remove anti tick skipping measures / wall time - revert to vanilla /* CraftBukkit start - moved up
              if (this.age != -32768) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 index 479a8422a6786a8ada8536d528e7f57a06c8107a..f2ef3bc4ffc3f1cb04cfc605531d0a9e826d3dfd 100644

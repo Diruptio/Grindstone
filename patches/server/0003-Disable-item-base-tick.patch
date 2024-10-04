@@ -5,7 +5,7 @@ Subject: [PATCH] Disable item base tick
 
 
 diff --git a/src/main/java/diruptio/grindstone/GrindstoneConfig.java b/src/main/java/diruptio/grindstone/GrindstoneConfig.java
-index f0187f24c8892a994e4a7061f7f70b798641100b..6b92202a51e9f1aba5e6bd14f0c8990ff64acdba 100644
+index f2661e5cb9573479e5116b4eab0f10f15c608091..747d729c3c70045298c016c27b9e447d231367dc 100644
 --- a/src/main/java/diruptio/grindstone/GrindstoneConfig.java
 +++ b/src/main/java/diruptio/grindstone/GrindstoneConfig.java
 @@ -128,10 +128,12 @@ public class GrindstoneConfig {
@@ -22,7 +22,7 @@ index f0187f24c8892a994e4a7061f7f70b798641100b..6b92202a51e9f1aba5e6bd14f0c8990f
      }
  }
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index e3412f02a228affd2918678a61bcf43451b6d4f0..841317149d850166dd83e21d554869908f5c911c 100644
+index 0f964bd9dfc90cd2327efe85f5c1b06a08d46297..51d30abffaa7eb8bf75b0b60c155f843ff7f5983 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 @@ -158,7 +158,9 @@ public class ItemEntity extends Entity implements TraceableEntity {
@@ -32,6 +32,6 @@ index e3412f02a228affd2918678a61bcf43451b6d4f0..841317149d850166dd83e21d55486990
 +            if (!diruptio.grindstone.GrindstoneConfig.disableItemBaseTick) { // Grindstone
              super.tick();
 +            } // Grindstone
-             // CraftBukkit start - Use wall time for pickup and despawn timers
-             int elapsedTicks = MinecraftServer.currentTick - this.lastTick;
-             if (this.pickupDelay != 32767) this.pickupDelay -= elapsedTicks;
+             // Paper start - remove anti tick skipping measures / wall time - revert to vanilla
+             if (this.pickupDelay > 0 && this.pickupDelay != 32767) {
+                 --this.pickupDelay;
